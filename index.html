@@ -3,9 +3,1192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Portal</title>
+    <title>CyberForgeEx Research Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --primary-light: #c4b5fd;
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border: #2d2d3d;
+            --background: #0f0f1a;
+            --surface: #1a1a2e;
+            --hover-bg: #252538;
+            --sidebar-bg: #16162a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+            color: var(--text);
+            background: var(--background);
+            line-height: 1.6;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 0.25rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 48px;
+            width: 260px;
+            height: calc(100vh - 48px);
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding: 0 1.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-item {
+            padding: 0.5rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .sidebar-item.active {
+            background: var(--hover-bg);
+            border-left: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            margin-top: 48px;
+            padding: 2rem 3rem;
+            max-width: 1400px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .search-box-main {
+            position: relative;
+            max-width: 600px;
+        }
+
+        .search-input-main {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .search-input-main:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+        }
+
+        .search-icon-main {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .doc-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .doc-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(167, 139, 250, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Detail View */
+        .detail-view {
+            display: none;
+        }
+
+        .detail-view.active {
+            display: block;
+        }
+
+        .detail-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .detail-icon {
+            font-size: 3rem;
+        }
+
+        .detail-desc {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .detail-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.375rem 0.75rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .detail-section {
+            margin-bottom: 3rem;
+        }
+
+        .detail-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .detail-section li {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .detail-section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .file-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .file-item:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary);
+        }
+
+        .file-item a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .file-item a:hover {
+            color: var(--primary);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary);
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+
+            .main-content {
+                padding: 1.5rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 150;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-title {
+                font-size: 1.75rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats-row {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>Demo Site Vasan Research</p>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="logo">CyberForgeEx</div>
+        <div class="nav-links">
+            <a href="https://github.com/CyberForgeEx/" class="nav-link" target="_blank">GitHub</a>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Get Started</div>
+            <div class="sidebar-item active" onclick="showDashboard()">
+                <span>🏠</span>
+                <span>Overview</span>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Projects</div>
+            <div class="sidebar-item" onclick="showProject(0)">
+                <span>BlackHatOps</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(1)">
+                <span>PowerBash</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(2)">
+                <span>IdeaForgeAI</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(3)">
+                <span>EntroPass</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(4)">
+                <span>ASM-ScratchPad</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(5)">
+                <span>KDOA Research</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(6)">
+                <span>Exploit Chain</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(7)">
+                <span>Windows-Pain-Killer</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(8)">
+                <span>Shellcode Execution</span>
+            </div>
+            <div class="sidebar-item" onclick="showProject(9)">
+                <span>MalForge</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard View -->
+        <div id="dashboardView">
+            <div class="breadcrumb">
+                <span>Documentation</span>
+                <span>›</span>
+                <span>Home</span>
+            </div>
+
+            <div class="hero">
+                <h1>Research Documentation</h1>
+                <p class="hero-subtitle">Explore comprehensive documentation for security research, offensive tools, automation utilities, and low-level programming projects.</p>
+                
+                <div class="search-box-main">
+                    <svg class="search-icon-main" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    <input type="text" class="search-input-main" id="searchInput" placeholder="Search projects and documentation...">
+                </div>
+            </div>
+
+            <h2 class="section-title">Research Projects</h2>
+            <div class="cards-grid" id="cardsGrid"></div>
+        </div>
+
+        <!-- Detail View -->
+        <div id="detailView" class="detail-view"></div>
+    </main>
+
+    <script>
+        const folders = [
+            {
+                name: "BlackHatOps",
+                description: "Offensive security operations toolkit and red team utilities for penetration testing and security research.",
+                fullDescription: "BlackHatOps is a comprehensive collection of offensive security tools and red team utilities designed for penetration testing, security research, and vulnerability assessment. This project emphasizes ethical hacking methodologies and defensive strategies through offensive understanding.",
+                files: 18,
+                icon: "🎯",
+                tags: ["Red Team", "Penetration Testing", "Security Research", "Offensive Security", "Low level"],
+                githubUrl: "https://github.com/CyberForgeEx/BlackHatOps",
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "BlackHatOps provides a robust framework for security professionals to conduct authorized penetration testing and security assessments. The toolkit includes various utilities for reconnaissance, exploitation, post-exploitation, and lateral movement in controlled environments. All tools are designed for educational purposes and authorized security testing only."
+                    },
+                    {
+                        title: "Use Cases",
+                        items: [
+                            "Authorized penetration testing engagements",
+                            "Red team operations and adversary simulation",
+                            "Security research and vulnerability discovery",
+                            "Educational purposes and security training",
+                            "Defense strategy development through offensive understanding"
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "PowerBash",
+                description: "Cross-platform shell scripting utilities combining PowerShell and Bash for automation and system administration.",
+                fullDescription: "PowerBash bridges the gap between Windows PowerShell and Unix Bash scripting, providing a unified approach to system administration and automation across different platforms. The project includes utilities, scripts, and frameworks for managing heterogeneous environments efficiently.",
+                files: 25,
+                lastUpdated: "2 week ago",
+                icon: "⚡",
+                tags: ["PowerShell", "Bash", "Automation", "System Administration"],
+                githubUrl: "https://github.com/CyberForgeEx/PowerBash",
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "PowerBash provides cross-platform scripting solutions that work seamlessly across Windows and Unix-like systems. It includes a collection of reusable scripts, functions, and frameworks designed to simplify common system administration tasks and automation workflows. The project focuses on maintaining consistency across different operating systems while leveraging platform-specific capabilities where appropriate."
+                    },
+                    {
+                        title: "Features",
+                        items: [
+                            "Cross-Platform Compatibility: Scripts that work on Windows, Linux, and macOS",
+                            "System Administration: User management, service control, and configuration tools",
+                            "Network Utilities: Network diagnostics, monitoring, and management scripts",
+                            "File Operations: Bulk file processing, backup, and synchronization utilities",
+                            "Logging and Monitoring: System health checks, log analysis, and alerting tools",
+                        ]
+                    },
+                ]
+            },
+            {
+                name: "IdeaForgeAI",
+                description: "AI-powered idea generation and project planning tool leveraging machine learning for creative brainstorming.",
+                fullDescription: "IdeaForgeAI is an innovative platform that harnesses artificial intelligence to assist in idea generation, project planning, and creative brainstorming. The tool uses natural language processing and machine learning to help users develop, organize, and refine their concepts into actionable plans.",
+                files: 22,
+                lastUpdated: "3 days ago",
+                icon: "💡",
+                tags: ["AI", "Text Generation", "Idea Generation", "VC-Styled Insights"],
+                githubUrl: "https://github.com/CyberForgeEx/IdeaForgeAI",
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "IdeaForgeAI combines advanced AI techniques with user-friendly interfaces to facilitate creative thinking and project development. The platform helps users generate new ideas, explore connections between concepts, and organize their thoughts into actionable plans. It leverages large language models and semantic analysis to provide context-aware suggestions and insights."
+                    },
+                    {
+                        title: "Core Capabilities",
+                        items: [
+                            "Idea Generation: AI-assisted brainstorming and concept development",
+                            "Semantic Analysis: Natural language understanding for context-aware suggestions",
+                            "Concept Mapping: Visual representation of idea relationships and dependencies",
+                            "Project Planning: Automated task breakdown and milestone planning",
+                            "Collaboration Tools: Multi-user brainstorming and idea sharing",
+                            "Knowledge Integration: Context gathering from multiple sources",
+                            "Trend Analysis: Identify patterns and emerging themes in ideas"
+                        ]
+                    },
+                    {
+                        title: "Applications",
+                        items: [
+                            "Product Development: Generate and refine product ideas",
+                            "Research Planning: Organize research questions and methodologies",
+                            "Content Creation: Brainstorm topics and content structures",
+                            "Business Strategy: Develop business models and strategies",
+                            "Creative Writing: Generate story ideas and plot structures"
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "EntroPass",
+                description: "Entropy-based password generator and security tool for creating cryptographically strong passwords.",
+                fullDescription: "EntroPass is a sophisticated password generation tool that leverages cryptographic entropy to create highly secure, random passwords. The tool focuses on generating passwords with maximum entropy while maintaining usability and offering extensive customization options for different security requirements.",
+                files: 12,
+                icon: "🔐",
+                tags: ["Security", "Cryptography", "Password Generation", "Entropy"],
+                githubUrl: "https://github.com/CyberForgeEx/EntroPass",
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "EntroPass provides a secure and efficient way to generate passwords using cryptographic entropy sources. The tool ensures that generated passwords are truly random and resistant to various attack vectors including brute force and dictionary attacks. It uses OS-level entropy sources to guarantee cryptographic randomness rather than relying on pseudo-random number generators."
+                    },
+                    {
+                        title: "Features",
+                        items: [
+                            "Cryptographic Randomness: Uses OS-level entropy sources (/dev/urandom, CryptGenRandom)",
+                            "Customizable Generation: Control length, character sets, and complexity requirements",
+                            "Entropy Analysis: Measure and display password strength metrics",
+                            "Batch Generation: Create multiple passwords simultaneously",
+                            "Pattern Avoidance: Ensures generated passwords avoid common patterns",
+                            "Cross-Platform: Works on Windows, Linux, and macOS",
+                            "Passphrase Generation: Create memorable yet secure passphrases"
+                        ]
+                    },
+                    {
+                        title: "Security Features",
+                        items: [
+                            "Minimum entropy requirements enforcement",
+                            "No password storage or logging",
+                            "Memory clearing after generation",
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "ASM-ScratchPad",
+                description: "Assembly language practice codes focused on system calls, memory architecture, and low-level mechanics for security analysis.",
+                fullDescription: "ASM-ScratchPad is a beginner-level collection of Assembly language practice codes designed to build foundational knowledge in system calls, memory architecture, and low-level programming mechanics. This educational resource is essential for understanding system security at the fundamental level and provides hands-on experience with assembly programming.",
+                files: 28,
+                lastUpdated: "3 days ago",
+                icon: "⚙️",
+                tags: ["Assembly", "System Calls", "Memory", "Low-Level Programming", "Begineer Friendly"],
+                githubUrl: null,
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "ASM-ScratchPad provides hands-on practice with Assembly language programming, focusing on understanding how systems work at the lowest level. This knowledge is crucial for security researchers, reverse engineers, and anyone interested in system internals. The repository contains progressively challenging exercises that cover fundamental concepts through advanced techniques."
+                    },
+                    {
+                        title: "Learning Topics",
+                        items: [
+                            "System Calls: Direct interaction with the operating system kernel (Linux syscalls, Windows API)",
+                            "Memory Architecture: Stack, heap, and segment management understanding",
+                            "Register Usage: Efficient register allocation and management techniques",
+                            "Function Calling Conventions: Understanding cdecl, stdcall, fastcall conventions",
+                            "Instruction Set Architecture: x86 and x64 instruction sets and opcodes",
+                            "Assembly Debugging: Using GDB, WinDbg for low-level analysis",
+                            "Security Foundations: Understanding buffer overflows, ROP chains at assembly level"
+                        ]
+                    },
+                    {
+                        title: "Practice Areas",
+                        items: [
+                            "Basic I/O: Console input/output using system calls",
+                            "Memory Manipulation: Direct memory access and addressing modes",
+                            "Stack Operations: Stack frame analysis, push/pop operations",
+                            "Control Flow: Conditional and unconditional jumps, loops",
+                            "String Processing: String manipulation at the byte level",
+                            "File Operations: Reading and writing files using syscalls",
+                            "Process Management: Fork, exec, and process control"
+                        ]
+                    },
+                    {
+                        title: "Under Development",
+                        items: [
+                            "NASM/MASM assemblers for code compilation",
+                            "GDB/WinDbg for debugging and analysis",
+                            "strace/ltrace for system call tracing",
+                            "objdump/dumpbin for binary analysis",
+                            "Hex editors for examining binary code"
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "KDOA Research",
+                description: "Kernel Data Only Attack demonstration research exploring advanced kernel exploitation techniques.",
+                fullDescription: "KDOA (Kernel Data Only Attack) Research is a private repository focusing on advanced kernel exploitation techniques that manipulate kernel data structures without executing code. This research demonstrates modern exploitation methodologies against kernel-level protections and explores how data-only attacks can bypass contemporary security mechanisms.",
+                files: 16,
+                lastUpdated: "2 weeks ago",
+                icon: "🔬",
+                tags: ["Kernel Security", "Exploitation", "Research", "Private"],
+                githubUrl: null,
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "KDOA Research explores kernel data-only attack techniques, which represent a sophisticated class of exploits that bypass traditional code execution defenses. The research focuses on manipulating kernel data structures to achieve arbitrary code execution or privilege escalation without directly injecting and executing shellcode. This approach is particularly relevant against modern systems with DEP, SMEP, and other execution prevention mechanisms."
+                    },
+                    {
+                        title: "Research Areas",
+                        items: [
+                            "Kernel Data Structures: In-depth analysis of critical kernel objects (process structures, function pointers)",
+                            "Memory Corruption: Understanding and exploiting kernel memory corruption bugs (UAF, double-free)",
+                            "Exploitation Primitives: Building reliable read/write primitives in kernel space",
+                            "Protection Bypass: Techniques to bypass KASLR, SMEP, SMAP, and KPTI",
+                            "Privilege Escalation: Achieving SYSTEM/root through data manipulation",
+                            "Attack Mitigation: Understanding and developing defenses against KDOA",
+                            "Kernel Pool Exploitation: Heap grooming and pool feng shui techniques"
+                        ]
+                    },
+                    {
+                        title: "Technical Focus",
+                        items: [
+                            "Windows Kernel: EPROCESS, ETHREAD structure manipulation",
+                            "Linux Kernel: task_struct, cred structure exploitation",
+                            "Function Pointer Overwrites: Hijacking kernel control flow",
+                            "Return-Oriented Programming: Kernel ROP chain construction",
+                            "Data-Only Exploitation: Pure data corruption techniques",
+                            "Information Leaks: KASLR bypass and memory disclosure"
+                        ]
+                    },
+                    {
+                        title: "Status",
+                        content: "This is a private research repository. The research is ongoing and focuses on developing proof-of-concept exploits for educational purposes and improving defensive security mechanisms."
+                    }
+                ]
+            },
+            {
+                name: "Exploit Chain",
+                description: "Chaining exploits using data structures for complex attack sequences. Tech Stack: C, Go, Python.",
+                fullDescription: "Exploit Chain demonstrates advanced exploitation techniques by chaining multiple exploits together using sophisticated data structures. This project implements complex attack sequences that leverage multiple vulnerabilities to achieve specific objectives, showcasing how individual weaknesses can be combined for maximum impact.",
+                files: 21,
+                lastUpdated: "1 week ago",
+                icon: "⛓️",
+                tags: ["Exploitation", "C", "Go", "Python", "Private"],
+                githubUrl: null,
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "Exploit Chain implements a framework for combining multiple exploits in sequence, using custom data structures to manage exploit flow, state, and coordination. The project demonstrates how individual vulnerabilities can be chained to bypass multiple layers of security. By combining exploits across different attack surfaces and privilege levels, the framework shows the importance of defense in depth."
+                    },
+                    {
+                        title: "Technical Components",
+                        items: [
+                            "Chain Management: Custom data structures (linked lists, graphs) for organizing exploit sequences",
+                            "State Tracking: Maintaining exploit state, memory addresses, and handles across stages",
+                            "Multi-Language Support: Seamless integration between C, Go, and Python components",
+                            "Exploit Primitives: Reusable building blocks (arbitrary read/write, code execution)",
+                            "Memory Management: Efficient handling of exploit payloads and shellcode",
+                            "Error Handling: Robust error recovery and exploit failover mechanisms",
+                            "Payload Generation: Dynamic payload creation based on target environment"
+                        ]
+                    },
+                    {
+                        title: "Architecture",
+                        items: [
+                            "C Components: Low-level memory manipulation and shellcode execution",
+                            "Go Components: Networking, orchestration, and coordination logic",
+                            "Python Components: Exploit development, testing, and automation scripts",
+                            "Inter-Process Communication: Shared memory and pipes for component interaction",
+                            "Configuration Management: JSON/YAML-based exploit chain definitions"
+                        ]
+                    },
+                    {
+                        title: "Example Chains",
+                        items: [
+                            "Information Leak → ASLR Bypass → Code Execution",
+                            "Authentication Bypass → Privilege Escalation → Persistence",
+                            "RCE → Credential Theft → Lateral Movement",
+                            "Client-Side Exploit → Sandbox Escape → Payload Delivery"
+                        ]
+                    },
+                    {
+                        title: "Status",
+                        content: "This is a private research repository focused on understanding modern exploitation techniques and developing robust defensive strategies."
+                    }
+                ]
+            },
+            {
+                name: "Windows-Pain-Killer",
+                description: "Automate time-consuming manual Windows tasks using batch scripts for faster system administration.",
+                fullDescription: "Windows-Pain-Killer is a collection of Windows batch scripts designed to automate repetitive and time-consuming manual tasks. The project focuses on improving system administration efficiency through intelligent automation, reducing human error, and standardizing administrative procedures.",
+                files: 34,
+                lastUpdated: "4 days ago",
+                icon: "💊",
+                tags: ["Windows", "Automation", "Batch Scripting", "Private"],
+                githubUrl: null,
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "Windows-Pain-Killer eliminates the pain of repetitive Windows administration tasks through well-crafted batch scripts. The collection covers common system administration scenarios and provides efficient, reliable automation solutions. Each script is designed to be robust, with proper error handling and logging capabilities."
+                    },
+                    {
+                        title: "Automation Categories",
+                        items: [
+                            "System Maintenance: Disk cleanup, temp file removal, registry optimization, defragmentation",
+                            "User Management: Bulk user creation/deletion, password resets, group management",
+                            "Network Configuration: IP configuration, DNS settings, firewall rules automation",
+                            "Software Deployment: Silent installations, MSI deployment, update management",
+                            "Log Analysis: Event log parsing, error detection, automated reporting",
+                            "Security Hardening: Security policy enforcement, UAC configuration, service hardening",
+                            "Backup Operations: Automated file/folder backups, database backups, restore procedures"
+                        ]
+                    },
+                    {
+                        title: "Key Features",
+                        items: [
+                            "Scheduled Task Integration: Scripts can be scheduled for automatic execution",
+                            "Error Handling: Comprehensive error checking and graceful failure handling",
+                            "Logging: Detailed logging of all operations for audit trails",
+                            "Configuration Files: Externalized configuration for easy customization",
+                            "Remote Execution: Support for remote system administration",
+                            "Active Directory Integration: AD query and management capabilities"
+                        ]
+                    },
+                    {
+                        title: "Common Scripts",
+                        items: [
+                            "Daily system cleanup and optimization",
+                            "Automated software updates and patches",
+                            "User account audit and compliance checks",
+                            "Network troubleshooting and diagnostics",
+                            "Application deployment and configuration",
+                            "Security baseline enforcement"
+                        ]
+                    },
+                    {
+                        title: "Status",
+                        content: "This is a private repository with continuous updates based on real-world system administration needs."
+                    }
+                ]
+            },
+            {
+                name: "Shellcode Execution Taxonomy",
+                description: "Various kinds of shellcode execution mechanisms and injection techniques. C-based implementations.",
+                fullDescription: "Shellcode Execution Taxonomy is a comprehensive collection of shellcode execution methods and injection techniques implemented in C. This private repository catalogs different approaches to executing shellcode in Windows environments, from basic techniques to advanced evasion methods.",
+                files: 27,
+                lastUpdated: "3 days ago",
+                icon: "🚀",
+                tags: ["Shellcode", "Injection", "C Programming", "Private"],
+                githubUrl: null,
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "This project provides a systematic taxonomy of shellcode execution mechanisms, from basic techniques to advanced evasion methods. Each implementation is documented with technical details, use cases, and detection considerations. The repository serves as an educational resource for understanding how shellcode operates and how to defend against it."
+                    },
+                    {
+                        title: "Execution Methods",
+                        items: [
+                            "Direct Execution: VirtualAlloc + memcpy + function pointer casting",
+                            "Process Injection: Classic CreateRemoteThread injection",
+                            "Thread Hijacking: Suspending threads and hijacking execution flow",
+                            "APC Injection: QueueUserAPC for stealthy code execution",
+                            "Module Stomping: Overwriting legitimate DLL sections with shellcode",
+                            "Process Hollowing: Creating suspended processes and replacing memory",
+                            "Reflective Loading: Loading PE files without Windows loader",
+                            "Callback-based Execution: EnumWindows, EnumSystemLocales callbacks"
+                        ]
+                    },
+                    {
+                        title: "Advanced Techniques",
+                        items: [
+                            "Early Bird APC: Injecting into process initialization phase",
+                            "Process Doppelgänging: NTFS transactions for evasion",
+                            "Atom Bombing: Using atom tables for code injection",
+                            "Thread Pool Injection: Hijacking thread pool callbacks",
+                            "Fiber Execution: Using Windows fibers for shellcode",
+                            "Memory Module Loading: In-memory PE loading without disk",
+                            "Remote Function Stomping: Overwriting remote function prologues"
+                        ]
+                    },
+                    {
+                        title: "Evasion Techniques",
+                        items: [
+                            "API Hooking Bypass: Direct syscall invocation",
+                            "Memory Protection: RX → RW → RX transitions",
+                            "String Obfuscation: Encrypted strings and dynamic resolution",
+                            "Import Hiding: Manual import resolution via PEB walking",
+                            "Sleeping Techniques: Avoiding detection during idle time",
+                            "Parent Process Spoofing: Masquerading as legitimate processes"
+                        ]
+                    },
+                    {
+                        title: "Technical Details",
+                        items: [
+                            "All implementations use Windows API functions",
+                            "Detailed comments explaining each technique",
+                            "Memory layout diagrams and execution flow",
+                            "MITRE ATT&CK technique mappings",
+                            "Detection signatures and defensive measures"
+                        ]
+                    },
+                    {
+                        title: "Status",
+                        content: "This is a private research repository. All code is for educational purposes and understanding defensive security strategies."
+                    }
+                ]
+            },
+            {
+                name: "MalForge",
+                description: "Practical implementation of Windows API functions categorized by malapi.io for security research and analysis.",
+                fullDescription: "MalForge is a practical implementation repository of Windows API functions commonly used in malware, categorized according to malapi.io taxonomy. This educational project helps security researchers understand how legitimate Windows APIs can be misused and how to detect and defend against such abuse.",
+                files: 42,
+                lastUpdated: "1 day ago",
+                icon: "🔨",
+                tags: ["Windows API", "Malware Analysis", "Security Research", "C"],
+                githubUrl: null,
+                sections: [
+                    {
+                        title: "Overview",
+                        content: "MalForge provides documented implementations of Windows API functions frequently observed in malware. By understanding these APIs and their usage patterns, security researchers can better analyze and defend against malicious software. Each implementation includes the legitimate use case, malicious use case, and detection methods. The project is organized according to the malapi.io categorization system."
+                    },
+                    {
+                        title: "API Categories",
+                        items: [
+                            "Process Manipulation: CreateProcess, OpenProcess, TerminateProcess, Process32First/Next",
+                            "Memory Operations: VirtualAlloc, VirtualProtect, WriteProcessMemory, ReadProcessMemory",
+                            "Thread Management: CreateThread, CreateRemoteThread, SuspendThread, ResumeThread",
+                            "Registry Operations: RegCreateKeyEx, RegSetValueEx, RegDeleteKey, RegQueryValueEx",
+                            "File Operations: CreateFile, WriteFile, DeleteFile, MoveFile, CopyFile",
+                            "Network APIs: socket, connect, send, recv, WinHTTP/WinINet functions",
+                            "Cryptography: CryptEncrypt, CryptDecrypt, CryptHashData, CryptGenKey",
+                            "Anti-Analysis: IsDebuggerPresent, CheckRemoteDebuggerPresent, NtQueryInformationProcess"
+                        ]
+                    },
+                    {
+                        title: "Additional Categories",
+                        items: [
+                            "Service Management: CreateService, StartService, ControlService",
+                            "Dynamic Loading: LoadLibrary, GetProcAddress, FreeLibrary",
+                            "Token Manipulation: OpenProcessToken, AdjustTokenPrivileges, ImpersonateLoggedOnUser",
+                            "Code Injection: VirtualAllocEx, WriteProcessMemory, CreateRemoteThread",
+                            "Persistence: Run keys, scheduled tasks, WMI event subscriptions",
+                            "System Information: GetSystemInfo, GetVersionEx, GetComputerName",
+                            "Mutex/Synchronization: CreateMutex, OpenMutex, WaitForSingleObject"
+                        ]
+                    },
+                    {
+                        title: "Implementation Structure",
+                        items: [
+                            "Each API has standalone C/C++ implementation",
+                            "Code comments explain parameters and return values",
+                            "Legitimate use case examples provided",
+                            "Malicious use case scenarios documented",
+                            "Detection methods and YARA rules included",
+                            "MITRE ATT&CK technique mappings",
+                            "API call sequence analysis for common patterns"
+                        ]
+                    },
+                    {
+                        title: "Detection and Defense",
+                        items: [
+                            "Behavioral patterns indicating malicious usage",
+                            "API call sequences common in malware",
+                            "ETW (Event Tracing for Windows) monitoring",
+                            "API hooking and monitoring techniques",
+                            "Endpoint Detection and Response (EDR) evasion methods",
+                            "Defensive programming patterns"
+                        ]
+                    },
+                    {
+                        title: "Educational Purpose Still Under Development",
+                        content: "All implementations are for educational and defensive security research. Understanding how APIs can be abused helps security professionals better protect systems and detect malicious activity. The project emphasizes responsible disclosure and ethical security research."
+                    }
+                ]
+            }
+        ];
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('visible');
+        }
+
+        function showDashboard() {
+            document.getElementById('dashboardView').style.display = 'block';
+            document.getElementById('detailView').classList.remove('active');
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            document.querySelector('.sidebar-item').classList.add('active');
+            
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('visible');
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function showProject(index) {
+            const project = folders[index];
+            document.getElementById('dashboardView').style.display = 'none';
+            
+            const detailView = document.getElementById('detailView');
+            
+            let sectionsHTML = '';
+            project.sections.forEach(section => {
+                if (section.items) {
+                    sectionsHTML += `
+                        <div class="detail-section">
+                            <h2>${section.title}</h2>
+                            <ul>
+                                ${section.items.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    sectionsHTML += `
+                        <div class="detail-section">
+                            <h2>${section.title}</h2>
+                            <p>${section.content}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            const repoSection = project.githubUrl 
+                ? `
+                    <div class="detail-section">
+                        <h2>Repository</h2>
+                        <div class="file-list">
+                            <div class="file-item">
+                                <span>🔗</span>
+                                <a href="${project.githubUrl}" target="_blank">${project.githubUrl}</a>
+                            </div>
+                        </div>
+                    </div>
+                `
+                : `
+                    <div class="detail-section">
+                        <h2>Repository Status</h2>
+                        <div class="status-badge">
+                            <span>🔒</span>
+                            <span>Private Repository</span>
+                        </div>
+                    </div>
+                `;
+            
+            detailView.innerHTML = `
+                <div class="breadcrumb">
+                    <a href="#" onclick="showDashboard(); return false;">Documentation</a>
+                    <span>›</span>
+                    <span>${project.name}</span>
+                </div>
+
+                <button class="back-btn" onclick="showDashboard()">
+                    <span>←</span>
+                    <span>Back to Documentation</span>
+                </button>
+                
+                <div class="detail-header">
+                    <div class="detail-title">
+                        <span class="detail-icon">${project.icon}</span>
+                        <span>${project.name}</span>
+                    </div>
+                    <div class="detail-desc">
+                        ${project.fullDescription}
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-badge">
+                            <span>📄</span>
+                            <span>${project.files} files</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span>🕐</span>
+                            <span>Updated ${project.lastUpdated}</span>
+                        </div>
+                    </div>
+                    <div class="detail-tags">
+                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+                
+                ${sectionsHTML}
+                ${repoSection}
+            `;
+            
+            detailView.classList.add('active');
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-item').forEach((item, i) => {
+                item.classList.remove('active');
+                if (i === index + 1) {
+                    item.classList.add('active');
+                }
+            });
+            
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('visible');
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        function renderCards(foldersToRender) {
+            const grid = document.getElementById('cardsGrid');
+            
+            grid.innerHTML = foldersToRender.map((folder, index) => `
+                <div class="doc-card" onclick="showProject(${folders.indexOf(folder)})">
+                    <span class="card-icon">${folder.icon}</span>
+                    <div class="card-title">${folder.name}</div>
+                    <div class="card-desc">${folder.description}</div>
+                    <div class="card-meta">
+                        <span>📄 ${folder.files} files</span>
+                        <span>🕐 ${folder.lastUpdated}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = folders.filter(folder => 
+                folder.name.toLowerCase().includes(searchTerm) || 
+                folder.description.toLowerCase().includes(searchTerm) ||
+                folder.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            );
+            renderCards(filtered);
+        });
+
+        // Initialize
+        renderCards(folders);
+    </script>
 </body>
 </html>
