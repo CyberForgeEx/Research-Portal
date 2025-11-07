@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberForgeEx Research Documentation</title>
+    <title>CyberForgeEx | Security Research Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,586 +14,2038 @@
         }
 
         :root {
-            --primary: #a78bfa;
-            --primary-dark: #8b5cf6;
-            --primary-light: #c4b5fd;
-            --text: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --border: #2d2d3d;
-            --background: #0f0f1a;
-            --surface: #1a1a2e;
-            --hover-bg: #252538;
-            --sidebar-bg: #16162a;
+            /* Purple Dark Theme */
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #a78bfa;
+            --primary-glow: rgba(139, 92, 246, 0.5);
+            
+            --accent: #d946ef;
+            --accent-dark: #c026d3;
+            --accent-light: #e879f9;
+            
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            
+            /* Dark Background */
+            --bg-primary: #0a0118;
+            --bg-secondary: #0f0a1e;
+            --bg-tertiary: #1a0f2e;
+            --bg-elevated: #251a3a;
+            --bg-card: rgba(26, 15, 46, 0.6);
+            
+            /* Text Colors */
+            --text-primary: #f1f0fb;
+            --text-secondary: #c4b5fd;
+            --text-muted: #a78bfa;
+            --text-dim: #7c3aed;
+            
+            /* Borders & Effects */
+            --border-primary: rgba(139, 92, 246, 0.15);
+            --border-secondary: rgba(139, 92, 246, 0.25);
+            --border-accent: rgba(217, 70, 239, 0.3);
+            
+            /* Shadows & Glows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
+            --glow-primary: 0 0 40px var(--primary-glow);
+            --glow-accent: 0 0 40px rgba(217, 70, 239, 0.4);
         }
 
+        /* ============================================
+           GLOBAL STYLES
+        ============================================ */
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
-            color: var(--text);
-            background: var(--background);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-primary);
             line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 16px;
+            position: relative;
         }
 
-        /* Top Navigation */
-        .top-nav {
+        /* ============================================
+           ADVANCED ANIMATIONS
+        ============================================ */
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+            }
+            33% { 
+                transform: translateY(-25px) rotate(2deg); 
+            }
+            66% { 
+                transform: translateY(-15px) rotate(-2deg); 
+            }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+            }
+            33% { 
+                transform: translateY(20px) rotate(-2deg); 
+            }
+            66% { 
+                transform: translateY(10px) rotate(2deg); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.6;
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px var(--primary-glow);
+            }
+            50% { 
+                box-shadow: 0 0 40px var(--primary-glow), 0 0 60px var(--primary-glow);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { 
+                background-position: -1000px 0;
+            }
+            100% { 
+                background-position: 1000px 0;
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { 
+                background-position: 0% 50%; 
+            }
+            50% { 
+                background-position: 100% 50%; 
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           ENHANCED BACKGROUND EFFECTS
+        ============================================ */
+        
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            animation: float 25s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .orb-1 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent), transparent);
+            bottom: -150px;
+            left: -150px;
+            animation: floatReverse 20s ease-in-out infinite;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 10s;
+        }
+
+        .orb-4 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--accent-dark), transparent);
+            top: 20%;
+            left: 20%;
+            animation: float 30s ease-in-out infinite;
+            animation-delay: 15s;
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+            background-size: 80px 80px;
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        /* ============================================
+           ENHANCED NAVIGATION
+        ============================================ */
+        
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 48px;
-            background: var(--background);
-            border-bottom: 1px solid var(--border);
+            height: 85px;
+            background: rgba(10, 1, 24, 0.8);
+            backdrop-filter: blur(30px) saturate(180%);
+            border-bottom: 1px solid var(--border-primary);
+            z-index: 1000;
+            animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
             display: flex;
             align-items: center;
-            padding: 0 1rem;
-            z-index: 100;
+            justify-content: space-between;
+            padding: 0 2rem;
         }
 
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-right: 2rem;
-        }
-
-        .nav-links {
+        .brand {
             display: flex;
-            gap: 1.5rem;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .brand:hover {
+            transform: scale(1.05);
+        }
+
+        .brand-logo {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 900;
+            color: white;
+            box-shadow: var(--glow-primary);
+            animation: glow 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
             align-items: center;
         }
 
         .nav-link {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         .nav-link:hover {
-            color: var(--text);
-        }
-
-        /* Mobile Menu */
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text);
-            padding: 0.25rem;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 48px;
-            width: 260px;
-            height: calc(100vh - 48px);
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            padding: 1.5rem 0;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .sidebar-title {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            padding: 0 1.5rem;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.5px;
-        }
-
-        .sidebar-item {
-            padding: 0.5rem 1.5rem;
-            color: var(--text);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 0.95rem;
-        }
-
-        .sidebar-item:hover {
-            background: var(--hover-bg);
-        }
-
-        .sidebar-item.active {
-            background: var(--hover-bg);
-            border-left: 3px solid var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 260px;
-            margin-top: 48px;
-            padding: 2rem 3rem;
-            max-width: 1400px;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .breadcrumb a {
-            color: var(--text-secondary);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--primary);
-        }
-
-        .hero {
-            margin-bottom: 3rem;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .search-box-main {
-            position: relative;
-            max-width: 600px;
-        }
-
-        .search-input-main {
-            width: 100%;
-            padding: 0.875rem 1rem 0.875rem 3rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 1rem;
-            background: var(--surface);
-            color: var(--text);
-        }
-
-        .search-input-main:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
-        }
-
-        .search-icon-main {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .doc-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .doc-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(167, 139, 250, 0.1);
+            color: var(--text-primary);
             transform: translateY(-2px);
         }
 
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: block;
+        .nav-link:hover::after {
+            width: 100%;
         }
 
-        .card-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .card-desc {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .card-meta {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        /* Detail View */
-        .detail-view {
-            display: none;
-        }
-
-        .detail-view.active {
-            display: block;
-        }
-
-        .detail-header {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .detail-title {
-            font-size: 2.5rem;
+        .nav-cta {
+            padding: 0.85rem 1.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 10px;
             font-weight: 700;
-            margin-bottom: 1rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Mobile Menu */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 85px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 1, 24, 0.98);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 2rem;
+            z-index: 999;
+            animation: slideDown 0.4s ease-out;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--border-secondary);
+            transform: translateX(10px);
+        }
+
+        .mobile-nav-cta {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* ============================================
+           ENHANCED HERO SECTION
+        ============================================ */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10rem 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInLeft 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.75rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--border-secondary);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            animation: bounceIn 1s ease-out 0.3s backwards;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--success);
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .hero-title-highlight {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            animation: gradientShift 5s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 3.5rem;
+            max-width: 600px;
+            animation: fadeInLeft 1s ease-out 0.4s backwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInLeft 1s ease-out 0.6s backwards;
+        }
+
+        .btn {
+            padding: 1.1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 6px 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.7);
+        }
+
+        .btn-secondary {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--primary-light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .visual-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-secondary);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: scaleIn 0.6s ease-out backwards;
+        }
+
+        .visual-card:nth-child(1) { animation-delay: 0.2s; }
+        .visual-card:nth-child(2) { animation-delay: 0.3s; }
+        .visual-card:nth-child(3) { animation-delay: 0.4s; }
+        .visual-card:nth-child(4) { animation-delay: 0.5s; }
+
+        .visual-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .visual-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+
+        .visual-card:hover::before {
+            left: 100%;
+        }
+
+        .visual-card:hover::after {
+            opacity: 1;
+        }
+
+        .visual-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: transparent;
+            box-shadow: 0 25px 50px rgba(139, 92, 246, 0.4);
+        }
+
+        .visual-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 4px 10px rgba(139, 92, 246, 0.5));
+            transition: transform 0.4s ease;
+        }
+
+        .visual-card:hover .visual-icon {
+            transform: scale(1.2) rotate(-10deg);
+        }
+
+        .visual-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .visual-stat {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============================================
+           ENHANCED STATS SECTION
+        ============================================ */
+        
+        .stats-section {
+            padding: 7rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.05));
+            position: relative;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: scaleIn 0.8s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(139, 92, 246, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 6px 12px rgba(139, 92, 246, 0.5));
+            transition: all 0.4s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 8px 16px rgba(139, 92, 246, 0.7));
+        }
+
+        .stat-value {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        /* ============================================
+           ENHANCED FEATURES SECTION
+        ============================================ */
+        
+        .features-section {
+            padding: 9rem 2rem;
+            position: relative;
+        }
+
+        .section-header {
+            max-width: 900px;
+            margin: 0 auto 6rem;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 0.65rem 1.5rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--border-secondary);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: bounceIn 1s ease-out;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .section-description {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            padding: 3.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+            transform: translate(-25%, -25%);
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .feature-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px rgba(139, 92, 246, 0.35);
+        }
+
+        .feature-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .feature-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 18px;
+            opacity: 0;
+            filter: blur(10px);
+            transition: opacity 0.5s ease;
+        }
+
+        .feature-card:hover .feature-icon-wrapper {
+            transform: scale(1.15) rotate(-8deg);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+        }
+
+        .feature-card:hover .feature-icon-wrapper::before {
+            opacity: 0.7;
+        }
+
+        .feature-title {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .feature-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary-light);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-link:hover {
+            gap: 1.25rem;
+            color: var(--accent);
+        }
+
+        /* ============================================
+           ENHANCED PROJECTS SHOWCASE
+        ============================================ */
+        
+        .projects-section {
+            padding: 9rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.03));
+        }
+
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            animation: scaleIn 0.8s ease-out backwards;
+            position: relative;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px rgba(139, 92, 246, 0.3);
+        }
+
+        .project-header {
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(217, 70, 239, 0.08));
+            border-bottom: 1px solid var(--border-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent);
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .project-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card:hover .project-icon {
+            transform: scale(1.15) rotate(-8deg);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+        }
+
+        .project-title {
+            font-size: 1.9rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-body {
+            padding: 3rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tag {
+            padding: 0.65rem 1.25rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--border-secondary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--primary-light);
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tag:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-primary);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .project-status {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2.5s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--success);
+        }
+
+        .status-dot.private {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* ============================================
+           ENHANCED PROJECT DETAIL VIEW
+        ============================================ */
+        
+        .detail-page {
+            display: none;
+            min-height: 100vh;
+            padding: 10rem 2rem 5rem;
+        }
+
+        .detail-page.active {
+            display: block;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs {
             display: flex;
             align-items: center;
             gap: 1rem;
+            margin-bottom: 3.5rem;
+            font-size: 1rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .breadcrumb-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-light);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+        }
+
+        .breadcrumb-current {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .detail-hero {
+            margin-bottom: 5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .detail-hero-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
         }
 
         .detail-icon {
-            font-size: 3rem;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            box-shadow: var(--glow-primary);
+            flex-shrink: 0;
+            animation: glow 3s ease-in-out infinite;
         }
 
-        .detail-desc {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
+        .detail-header-content {
+            flex: 1;
+        }
+
+        .detail-title {
+            font-size: 4rem;
+            font-weight: 900;
             margin-bottom: 1.5rem;
-            line-height: 1.7;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .detail-subtitle {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 2.5rem;
+        }
+
+        .detail-meta-bar {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1.75rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--border-secondary);
+            border-radius: 50px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .meta-item:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .meta-icon {
+            font-size: 1.4rem;
         }
 
         .detail-tags {
             display: flex;
-            gap: 0.75rem;
             flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2.5rem;
         }
 
-        .tag {
-            padding: 0.375rem 0.75rem;
-            background: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .detail-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .detail-main {
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
         }
 
         .detail-section {
-            margin-bottom: 3rem;
+            margin-bottom: 5rem;
         }
 
-        .detail-section h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border);
+        .detail-section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
         }
 
-        .detail-section h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
+        .detail-section-title::before {
+            content: '';
+            width: 5px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
-        .detail-section p {
+        .detail-section-content {
             color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1rem;
+            line-height: 2;
+            font-size: 1.15rem;
         }
 
-        .detail-section ul {
+        .detail-list {
             list-style: none;
-            margin-top: 1rem;
+            margin-top: 2rem;
         }
 
-        .detail-section li {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
+        .detail-list li {
+            padding: 1.25rem 0 1.25rem 3rem;
             position: relative;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.05rem;
         }
 
-        .detail-section li:before {
-            content: "→";
+        .detail-list li:last-child {
+            border-bottom: none;
+        }
+
+        .detail-list li::before {
+            content: '→';
             position: absolute;
             left: 0;
             color: var(--primary);
+            font-weight: 900;
+            font-size: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .file-list {
-            list-style: none;
-            margin-top: 1rem;
+        .detail-list li:hover {
+            padding-left: 3.5rem;
+            color: var(--text-primary);
+            background: rgba(139, 92, 246, 0.05);
         }
 
-        .file-item {
+        .detail-list li:hover::before {
+            transform: translateX(8px);
+            color: var(--accent);
+        }
+
+        .detail-sidebar {
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .sidebar-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .sidebar-card-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1.75rem;
+        }
+
+        .repo-link {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1rem;
-            background: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .file-item:hover {
-            background: var(--hover-bg);
-            border-color: var(--primary);
-        }
-
-        .file-item a {
-            color: var(--text);
+            gap: 1.25rem;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
             text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
         }
 
-        .file-item a:hover {
-            color: var(--primary);
+        .repo-link:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
         }
 
-        .back-btn {
+        .repo-icon {
+            font-size: 1.75rem;
+        }
+
+        .private-badge {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.5rem;
+            background: rgba(217, 70, 239, 0.15);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        .back-button {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--text);
+            gap: 0.85rem;
+            padding: 1.15rem 2.5rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            color: var(--primary-light);
             text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 3.5rem;
         }
 
-        .back-btn:hover {
-            background: var(--hover-bg);
-            border-color: var(--primary);
+        .back-button:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateX(-8px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.4);
         }
 
-        .stats-row {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+        /* ============================================
+           SCROLL REVEAL ANIMATIONS
+        ============================================ */
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .stat-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: var(--primary);
-            margin-top: 1rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .cards-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        /* ============================================
+           RESPONSIVE DESIGN - ENHANCED
+        ============================================ */
+        
+        /* Large Desktop (1920px+) */
+        @media (min-width: 1920px) {
+            .hero-title {
+                font-size: 6rem;
             }
-
-            .main-content {
-                padding: 1.5rem 2rem;
+            .section-title {
+                font-size: 4.5rem;
             }
         }
 
-        @media (max-width: 768px) {
-            .mobile-toggle {
-                display: block;
+        /* Desktop (1200px - 1919px) */
+        @media (max-width: 1919px) and (min-width: 1200px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+        }
+
+        /* Laptop/Tablet Landscape (992px - 1199px) */
+        @media (max-width: 1199px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 4rem;
             }
 
-            .nav-links {
-                display: none;
+            .hero-visual {
+                max-width: 700px;
+                margin: 0 auto;
             }
 
-            .sidebar {
-                transform: translateX(-100%);
-                z-index: 150;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2.5rem;
             }
 
-            .sidebar.visible {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 1rem 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .cards-grid {
+            .detail-content {
                 grid-template-columns: 1fr;
             }
 
-            .detail-title {
-                font-size: 1.75rem;
-                flex-direction: column;
-                align-items: flex-start;
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tablet Portrait (768px - 991px) */
+        @media (max-width: 991px) {
+            .hero-title {
+                font-size: 3.5rem;
             }
 
-            .stats-row {
+            .section-title {
+                font-size: 3rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .detail-title {
+                font-size: 3rem;
+            }
+        }
+
+        /* Mobile Landscape (576px - 767px) */
+        @media (max-width: 767px) {
+            .hero {
+                padding: 8rem 1.5rem 4rem;
+            }
+
+            .hero-title {
+                font-size: 2.75rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .visual-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .detail-hero-header {
                 flex-direction: column;
+                gap: 2rem;
+            }
+
+            .detail-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 3.5rem;
+            }
+
+            .detail-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Mobile Portrait (< 576px) */
+        @media (max-width: 575px) {
+            .brand-logo {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .brand-name {
+                font-size: 1.3rem;
+            }
+
+            .brand-tagline {
+                font-size: 0.6rem;
+            }
+
+            .navbar {
+                height: 75px;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.25rem;
+                letter-spacing: -1px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-description,
+            .section-description {
+                font-size: 1rem;
+            }
+
+            .stat-value {
+                font-size: 3rem;
+            }
+
+            .stat-icon {
+                font-size: 3rem;
+            }
+
+            .feature-icon-wrapper {
+                width: 65px;
+                height: 65px;
+                font-size: 2rem;
+            }
+
+            .feature-title {
+                font-size: 1.4rem;
+            }
+
+            .project-icon {
+                width: 75px;
+                height: 75px;
+                font-size: 2.5rem;
+            }
+
+            .project-title {
+                font-size: 1.6rem;
+            }
+
+            .detail-title {
+                font-size: 2rem;
+            }
+
+            .detail-section-title {
+                font-size: 1.75rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section,
+            .features-section,
+            .projects-section {
+                padding: 5rem 1rem;
+            }
+        }
+
+        /* ============================================
+           ENHANCED SCROLLBAR
+        ============================================ */
+        
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            border: 2px solid var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent), var(--primary));
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ============================================
+           LOADING ANIMATION
+        ============================================ */
+        
+        .loading {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+        ============================================ */
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glow-effect {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover,
+            .feature-card:hover,
+            .project-card:hover,
+            .stat-card:hover {
+                transform: none;
+            }
+
+            .btn:active {
+                transform: scale(0.98);
+            }
+
+            .feature-card:active,
+            .project-card:active,
+            .stat-card:active {
+                transform: scale(0.98);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
-        <div class="logo">CyberForgeEx</div>
-        <div class="nav-links">
-            <a href="https://github.com/CyberForgeEx/" class="nav-link" target="_blank">GitHub</a>
-        </div>
-    </nav>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-section">
-            <div class="sidebar-title">Get Started</div>
-            <div class="sidebar-item active" onclick="showDashboard()">
-                <span>🏠</span>
-                <span>Overview</span>
-            </div>
-        </div>
-
-        <div class="sidebar-section">
-            <div class="sidebar-title">Projects</div>
-            <div class="sidebar-item" onclick="showProject(0)">
-                <span>BlackHatOps</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(1)">
-                <span>PowerBash</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(2)">
-                <span>IdeaForgeAI</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(3)">
-                <span>EntroPass</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(4)">
-                <span>ASM-ScratchPad</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(5)">
-                <span>KDOA Research</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(6)">
-                <span>Exploit Chain</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(7)">
-                <span>Windows-Pain-Killer</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(8)">
-                <span>Shellcode Execution</span>
-            </div>
-            <div class="sidebar-item" onclick="showProject(9)">
-                <span>MalForge</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Dashboard View -->
-        <div id="dashboardView">
-            <div class="breadcrumb">
-                <span>Documentation</span>
-                <span>›</span>
-                <span>Home</span>
-            </div>
-
-            <div class="hero">
-                <h1>Research Documentation</h1>
-                <p class="hero-subtitle">Explore comprehensive documentation for security research, offensive tools, automation utilities, and low-level programming projects.</p>
-                
-                <div class="search-box-main">
-                    <svg class="search-icon-main" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <input type="text" class="search-input-main" id="searchInput" placeholder="Search projects and documentation...">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand" onclick="showHome()">
+                <div class="brand-logo">CF</div>
+                <div class="brand-text">
+                    <div class="brand-name">CyberForgeEx</div>
+                    <div class="brand-tagline">Security Research</div>
                 </div>
             </div>
 
-            <h2 class="section-title">Research Projects</h2>
-            <div class="cards-grid" id="cardsGrid"></div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+
+            <div class="nav-menu">
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="https://github.com/CyberForgeEx/" class="nav-cta" target="_blank">
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#projects" class="mobile-nav-link" onclick="toggleMobileMenu()">Projects</a>
+        <a href="https://github.com/CyberForgeEx/" class="mobile-nav-cta" target="_blank">View on GitHub</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home Page -->
+        <div id="homePage">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <div class="status-indicator"></div>
+                            <span>Research Platform</span>
+                        </div>
+                        
+                        <h1 class="hero-title">
+                            <span class="hero-title-highlight">Security Research</span>
+                        </h1>
+                        
+                        <p class="hero-description">
+                            Offensive security research platform delivering solutions, automation frameworks, and low-level system programming tools. Built for security professionals and learners who are curious.
+                        </p>
+                        
+                        <div class="hero-actions">
+                            <a href="#projects" class="btn btn-primary">
+                                <span>Explore Projects</span>
+                                <span>→</span>
+                            </a>
+                            <a href="https://github.com/CyberForgeEx/" class="btn btn-secondary" target="_blank">
+                                <span>View on GitHub</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="visual-grid">
+                            <div class="visual-card">
+                                <span class="visual-icon">🎯</span>
+                                <div class="visual-title">Active Projects</div>
+                                <div class="visual-title">All Private Repos are still Under Development</div>
+                            </div>
+                            <div class="visual-card">
+                                <span class="visual-icon">📁</span>
+                                <div class="visual-title">Code Files</div>
+                                <div class="visual-stat">150+</div>
+                            </div>
+                            <div class="visual-card">
+                                <span class="visual-icon">⚡</span>
+                                <div class="visual-title">Languages</div>
+                                <div class="visual-stat">8+</div>
+                            </div>
+                            <div class="visual-card">
+                                <span class="visual-icon">🔄</span>
+                                <div class="visual-title">Updates</div>
+                                <div class="visual-stat">24/7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="projects-section" id="projects">
+                <div class="projects-container">
+                    <div class="section-header">
+                        <div class="section-label">Portfolio</div>
+                        <h2 class="section-title">Featured Research Projects</h2>
+                        <p class="section-description">
+                            Comprehensive collection of open-source and private research initiatives covering multiple domains of cybersecurity, system programming, and AI.
+                        </p>
+                    </div>
+
+                    <div class="projects-grid" id="projectsGrid"></div>
+                </div>
+            </section>
         </div>
 
-        <!-- Detail View -->
-        <div id="detailView" class="detail-view"></div>
+        <!-- Detail Page -->
+        <div id="detailPage" class="detail-page"></div>
     </main>
 
     <script>
-        const folders = [
+        // Project Data
+        const projects = [
             {
                 name: "BlackHatOps",
-                description: "Offensive security operations toolkit and red team utilities for penetration testing and security research.",
-                fullDescription: "BlackHatOps is a comprehensive collection of offensive security tools and red team utilities designed for penetration testing, security research, and vulnerability assessment. This project emphasizes ethical hacking methodologies and defensive strategies through offensive understanding.",
-                files: 18,
+                shortDesc: "Offensive security operations toolkit and basic red team operational programs",
+                fullDesc: "BlackHatOps is a comprehensive set of offensive security programs designed for penetration testing, red team operations, and security research. Features offensive C programs for authorized security assessments.",
                 icon: "🎯",
-                tags: ["Red Team", "Penetration Testing", "Security Research", "Offensive Security", "Low level"],
+                category: "Offensive Security",
+                tags: ["Red Team", "Penetration Testing", "Exploitation", "Low-Level"],
+                files: 15,
+                lastUpdate: "5 days ago",
+                status: "public",
                 githubUrl: "https://github.com/CyberForgeEx/BlackHatOps",
                 sections: [
                     {
                         title: "Overview",
-                        content: "BlackHatOps provides a robust framework for security professionals to conduct authorized penetration testing and security assessments. The toolkit includes various utilities for reconnaissance, exploitation, post-exploitation, and lateral movement in controlled environments. All tools are designed for educational purposes and authorized security testing only."
+                        content: "A collection of C programs designed for educational and research purposes in offensive security. This repository includes tools for working with sockets, creating reverse shells, executing shellcode, and performing process injection."
+                    },
+                    {
+                        title: "Key Features",
+                        items: [
+                            "Basic client and server socket implementation",
+                            "Windows native shellcode execution program",
+                            "Remote process injection program",
+                            "Windows stealth reverse shell spawning program using Native APIs",
+                            "Main project consists of Windows native backdoor program with a dedicated Linux server",
+                            "Educational resources and documentation"
+                        ]
                     },
                     {
                         title: "Use Cases",
@@ -600,475 +2054,308 @@
                             "Red team operations and adversary simulation",
                             "Security research and vulnerability discovery",
                             "Educational purposes and security training",
-                            "Defense strategy development through offensive understanding"
+                            "Defense strategy development"
                         ]
                     }
                 ]
             },
             {
                 name: "PowerBash",
-                description: "Cross-platform shell scripting utilities combining PowerShell and Bash for automation and system administration.",
-                fullDescription: "PowerBash bridges the gap between Windows PowerShell and Unix Bash scripting, providing a unified approach to system administration and automation across different platforms. The project includes utilities, scripts, and frameworks for managing heterogeneous environments efficiently.",
-                files: 25,
-                lastUpdated: "2 week ago",
+                shortDesc: "Cross-platform utilities for automation of simple system administration",
+                fullDesc: "System administration scripts for Windows & Linux.",
                 icon: "⚡",
-                tags: ["PowerShell", "Bash", "Automation", "System Administration"],
+                category: "Automation",
+                tags: ["PowerShell", "Bash", "Automation", "DevOps"],
+                files: 5,
+                lastUpdate: "3 weeks ago",
+                status: "public",
                 githubUrl: "https://github.com/CyberForgeEx/PowerBash",
                 sections: [
                     {
                         title: "Overview",
-                        content: "PowerBash provides cross-platform scripting solutions that work seamlessly across Windows and Unix-like systems. It includes a collection of reusable scripts, functions, and frameworks designed to simplify common system administration tasks and automation workflows. The project focuses on maintaining consistency across different operating systems while leveraging platform-specific capabilities where appropriate."
+                        content: "PowerBash provides cross-platform scripting solutions that work seamlessly across Windows & Linux separately. Designed for system administrators and DevOps engineers."
                     },
                     {
-                        title: "Features",
+                        title: "Key Features",
                         items: [
-                            "Cross-Platform Compatibility: Scripts that work on Windows, Linux, and macOS",
-                            "System Administration: User management, service control, and configuration tools",
-                            "Network Utilities: Network diagnostics, monitoring, and management scripts",
-                            "File Operations: Bulk file processing, backup, and synchronization utilities",
-                            "Logging and Monitoring: System health checks, log analysis, and alerting tools",
+                            "Cross-platform compatibility (Windows, Linux)",
+                            "System administration and user management",
+                            "Network diagnostics and monitoring tools",
+                            "Service control and management utilities"
                         ]
-                    },
+                    }
                 ]
             },
             {
                 name: "IdeaForgeAI",
-                description: "AI-powered idea generation and project planning tool leveraging machine learning for creative brainstorming.",
-                fullDescription: "IdeaForgeAI is an innovative platform that harnesses artificial intelligence to assist in idea generation, project planning, and creative brainstorming. The tool uses natural language processing and machine learning to help users develop, organize, and refine their concepts into actionable plans.",
-                files: 22,
-                lastUpdated: "3 days ago",
+                shortDesc: "AI-powered idea generation and POML generation",
+                fullDesc: "IdeaForgeAI leverages advanced machine learning and natural language processing to assist in creative brainstorming, idea generation, and strategic project planning. Features VC-style insights and intelligent recommendations.",
                 icon: "💡",
-                tags: ["AI", "Text Generation", "Idea Generation", "VC-Styled Insights"],
+                category: "Artificial Intelligence",
+                tags: ["AI", "Text Generation", "NLP", "Innovation", "POML"],
+                files: 18,
+                lastUpdate: "4 days ago",
+                status: "public",
                 githubUrl: "https://github.com/CyberForgeEx/IdeaForgeAI",
                 sections: [
                     {
                         title: "Overview",
-                        content: "IdeaForgeAI combines advanced AI techniques with user-friendly interfaces to facilitate creative thinking and project development. The platform helps users generate new ideas, explore connections between concepts, and organize their thoughts into actionable plans. It leverages large language models and semantic analysis to provide context-aware suggestions and insights."
+                        content: "IdeaForgeAI combines advanced AI techniques with user-friendly interfaces to facilitate creative thinking and strategic project development."
                     },
                     {
-                        title: "Core Capabilities",
+                        title: "Key Features",
                         items: [
-                            "Idea Generation: AI-assisted brainstorming and concept development",
-                            "Semantic Analysis: Natural language understanding for context-aware suggestions",
-                            "Concept Mapping: Visual representation of idea relationships and dependencies",
-                            "Project Planning: Automated task breakdown and milestone planning",
-                            "Collaboration Tools: Multi-user brainstorming and idea sharing",
-                            "Knowledge Integration: Context gathering from multiple sources",
-                            "Trend Analysis: Identify patterns and emerging themes in ideas"
-                        ]
-                    },
-                    {
-                        title: "Applications",
-                        items: [
-                            "Product Development: Generate and refine product ideas",
-                            "Research Planning: Organize research questions and methodologies",
-                            "Content Creation: Brainstorm topics and content structures",
-                            "Business Strategy: Develop business models and strategies",
-                            "Creative Writing: Generate story ideas and plot structures"
+                            "AI-powered idea generation",
+                            "Natural language processing",
+                            "Project planning assistance",
+                            "VC-style market insights",
+                            "Competitive analysis tools"
                         ]
                     }
                 ]
             },
             {
                 name: "EntroPass",
-                description: "Entropy-based password generator and security tool for creating cryptographically strong passwords.",
-                fullDescription: "EntroPass is a sophisticated password generation tool that leverages cryptographic entropy to create highly secure, random passwords. The tool focuses on generating passwords with maximum entropy while maintaining usability and offering extensive customization options for different security requirements.",
-                files: 12,
+                shortDesc: "Entropy-based password strength checker",
+                fullDesc: "EntroPass utilizes cryptographic entropy to generate highly secure, random passwords. Features entropy analysis, strength testing, and customizable generation parameters for enterprise security requirements.",
                 icon: "🔐",
-                tags: ["Security", "Cryptography", "Password Generation", "Entropy"],
+                category: "Cryptography",
+                tags: ["Security", "Cryptography", "Passwords", "Entropy", "Algorithmic"],
+                files: 2,
+                lastUpdate: "2 weeks ago",
+                status: "public",
                 githubUrl: "https://github.com/CyberForgeEx/EntroPass",
                 sections: [
                     {
                         title: "Overview",
-                        content: "EntroPass provides a secure and efficient way to generate passwords using cryptographic entropy sources. The tool ensures that generated passwords are truly random and resistant to various attack vectors including brute force and dictionary attacks. It uses OS-level entropy sources to guarantee cryptographic randomness rather than relying on pseudo-random number generators."
+                        content: "EntroPass is a simple password generation tool written in C, that checks the given password strength and generates a random secure password if the existing password is weak."
                     },
                     {
-                        title: "Features",
+                        title: "Key Features",
                         items: [
-                            "Cryptographic Randomness: Uses OS-level entropy sources (/dev/urandom, CryptGenRandom)",
-                            "Customizable Generation: Control length, character sets, and complexity requirements",
-                            "Entropy Analysis: Measure and display password strength metrics",
-                            "Batch Generation: Create multiple passwords simultaneously",
-                            "Pattern Avoidance: Ensures generated passwords avoid common patterns",
-                            "Cross-Platform: Works on Windows, Linux, and macOS",
-                            "Passphrase Generation: Create memorable yet secure passphrases"
-                        ]
-                    },
-                    {
-                        title: "Security Features",
-                        items: [
-                            "Minimum entropy requirements enforcement",
-                            "No password storage or logging",
-                            "Memory clearing after generation",
+                            "Cryptographically secure random generation",
+                            "Entropy analysis and measurement",
+                            "Password strength testing",
+                            "Customizable generation parameters"
                         ]
                     }
                 ]
             },
             {
                 name: "ASM-ScratchPad",
-                description: "Assembly language practice codes focused on system calls, memory architecture, and low-level mechanics for security analysis.",
-                fullDescription: "ASM-ScratchPad is a beginner-level collection of Assembly language practice codes designed to build foundational knowledge in system calls, memory architecture, and low-level programming mechanics. This educational resource is essential for understanding system security at the fundamental level and provides hands-on experience with assembly programming.",
-                files: 28,
-                lastUpdated: "3 days ago",
+                shortDesc: "Assembly language practice and system programming",
+                fullDesc: "ASM-ScratchPad is a comprehensive collection of Assembly language practice codes, system call examples, and memory architecture explorations. Perfect for learning low-level programming concepts.",
                 icon: "⚙️",
-                tags: ["Assembly", "System Calls", "Memory", "Low-Level Programming", "Begineer Friendly"],
+                category: "Low-Level Programming",
+                tags: ["Assembly", "System Calls", "Memory", "x86/x64"],
+                files: 14,
+                lastUpdate: "2 days ago",
+                status: "private",
                 githubUrl: null,
                 sections: [
                     {
                         title: "Overview",
-                        content: "ASM-ScratchPad provides hands-on practice with Assembly language programming, focusing on understanding how systems work at the lowest level. This knowledge is crucial for security researchers, reverse engineers, and anyone interested in system internals. The repository contains progressively challenging exercises that cover fundamental concepts through advanced techniques."
+                        content: "ASM-ScratchPad provides hands-on practice with Assembly language programming, system calls, and memory architecture concepts. The main motivation is that beginners can easily learn the fundamentals of assembly."
                     },
                     {
-                        title: "Learning Topics",
+                        title: "Topics Covered",
                         items: [
-                            "System Calls: Direct interaction with the operating system kernel (Linux syscalls, Windows API)",
-                            "Memory Architecture: Stack, heap, and segment management understanding",
-                            "Register Usage: Efficient register allocation and management techniques",
-                            "Function Calling Conventions: Understanding cdecl, stdcall, fastcall conventions",
-                            "Instruction Set Architecture: x86 and x64 instruction sets and opcodes",
-                            "Assembly Debugging: Using GDB, WinDbg for low-level analysis",
-                            "Security Foundations: Understanding buffer overflows, ROP chains at assembly level"
-                        ]
-                    },
-                    {
-                        title: "Practice Areas",
-                        items: [
-                            "Basic I/O: Console input/output using system calls",
-                            "Memory Manipulation: Direct memory access and addressing modes",
-                            "Stack Operations: Stack frame analysis, push/pop operations",
-                            "Control Flow: Conditional and unconditional jumps, loops",
-                            "String Processing: String manipulation at the byte level",
-                            "File Operations: Reading and writing files using syscalls",
-                            "Process Management: Fork, exec, and process control"
-                        ]
-                    },
-                    {
-                        title: "Under Development",
-                        items: [
-                            "NASM/MASM assemblers for code compilation",
-                            "GDB/WinDbg for debugging and analysis",
-                            "strace/ltrace for system call tracing",
-                            "objdump/dumpbin for binary analysis",
-                            "Hex editors for examining binary code"
+                            "x86 and x64 assembly fundamentals",
+                            "System call interfaces and conventions",
+                            "Memory addressing and manipulation",
+                            "Register operations and stack management",
+                            "Low-level optimization techniques"
                         ]
                     }
                 ]
             },
             {
                 name: "KDOA Research",
-                description: "Kernel Data Only Attack demonstration research exploring advanced kernel exploitation techniques.",
-                fullDescription: "KDOA (Kernel Data Only Attack) Research is a private repository focusing on advanced kernel exploitation techniques that manipulate kernel data structures without executing code. This research demonstrates modern exploitation methodologies against kernel-level protections and explores how data-only attacks can bypass contemporary security mechanisms.",
-                files: 16,
-                lastUpdated: "2 weeks ago",
+                shortDesc: "Kernel Data-Only Attack exploitation research",
+                fullDesc: "Advanced research into Kernel Data-Only Attacks (KDOA) demonstrating sophisticated kernel exploitation techniques that manipulate kernel data structures without traditional code execution.",
                 icon: "🔬",
-                tags: ["Kernel Security", "Exploitation", "Research", "Private"],
+                category: "Security Research",
+                tags: ["Kernel", "Exploitation", "Research", "Advanced"],
+                files: 16,
+                lastUpdate: "2 weeks ago",
+                status: "private",
                 githubUrl: null,
                 sections: [
                     {
                         title: "Overview",
-                        content: "KDOA Research explores kernel data-only attack techniques, which represent a sophisticated class of exploits that bypass traditional code execution defenses. The research focuses on manipulating kernel data structures to achieve arbitrary code execution or privilege escalation without directly injecting and executing shellcode. This approach is particularly relevant against modern systems with DEP, SMEP, and other execution prevention mechanisms."
+                        content: "KDOA Research focuses on advanced kernel exploitation techniques that manipulate kernel data structures without executing code, bypassing traditional security mechanisms."
                     },
                     {
                         title: "Research Areas",
                         items: [
-                            "Kernel Data Structures: In-depth analysis of critical kernel objects (process structures, function pointers)",
-                            "Memory Corruption: Understanding and exploiting kernel memory corruption bugs (UAF, double-free)",
-                            "Exploitation Primitives: Building reliable read/write primitives in kernel space",
-                            "Protection Bypass: Techniques to bypass KASLR, SMEP, SMAP, and KPTI",
-                            "Privilege Escalation: Achieving SYSTEM/root through data manipulation",
-                            "Attack Mitigation: Understanding and developing defenses against KDOA",
-                            "Kernel Pool Exploitation: Heap grooming and pool feng shui techniques"
+                            "Kernel data structure manipulation",
+                            "Non-code execution exploitation",
+                            "Privilege escalation techniques",
+                            "Security mechanism bypass",
+                            "Mitigation analysis and countermeasures"
                         ]
-                    },
-                    {
-                        title: "Technical Focus",
-                        items: [
-                            "Windows Kernel: EPROCESS, ETHREAD structure manipulation",
-                            "Linux Kernel: task_struct, cred structure exploitation",
-                            "Function Pointer Overwrites: Hijacking kernel control flow",
-                            "Return-Oriented Programming: Kernel ROP chain construction",
-                            "Data-Only Exploitation: Pure data corruption techniques",
-                            "Information Leaks: KASLR bypass and memory disclosure"
-                        ]
-                    },
-                    {
-                        title: "Status",
-                        content: "This is a private research repository. The research is ongoing and focuses on developing proof-of-concept exploits for educational purposes and improving defensive security mechanisms."
                     }
                 ]
             },
             {
                 name: "Exploit Chain",
-                description: "Chaining exploits using data structures for complex attack sequences. Tech Stack: C, Go, Python.",
-                fullDescription: "Exploit Chain demonstrates advanced exploitation techniques by chaining multiple exploits together using sophisticated data structures. This project implements complex attack sequences that leverage multiple vulnerabilities to achieve specific objectives, showcasing how individual weaknesses can be combined for maximum impact.",
-                files: 21,
-                lastUpdated: "1 week ago",
+                shortDesc: "Advanced exploit chaining using efficient DSA",
+                fullDesc: "Demonstrates advanced exploitation techniques by chaining multiple exploits using data structure manipulation. Multi-language implementation in C, Go, and Python.",
                 icon: "⛓️",
-                tags: ["Exploitation", "C", "Go", "Python", "Private"],
+                category: "Exploitation",
+                tags: ["C", "Go", "Python", "Advanced", "Under Development"],
+                files: 21,
+                lastUpdate: "1 week ago",
+                status: "private",
                 githubUrl: null,
                 sections: [
                     {
                         title: "Overview",
-                        content: "Exploit Chain implements a framework for combining multiple exploits in sequence, using custom data structures to manage exploit flow, state, and coordination. The project demonstrates how individual vulnerabilities can be chained to bypass multiple layers of security. By combining exploits across different attack surfaces and privilege levels, the framework shows the importance of defense in depth."
+                        content: "Exploit Chain demonstrates how to combine multiple exploitation techniques using data structure manipulation to achieve complex attack sequences."
                     },
                     {
-                        title: "Technical Components",
+                        title: "Techniques",
                         items: [
-                            "Chain Management: Custom data structures (linked lists, graphs) for organizing exploit sequences",
-                            "State Tracking: Maintaining exploit state, memory addresses, and handles across stages",
-                            "Multi-Language Support: Seamless integration between C, Go, and Python components",
-                            "Exploit Primitives: Reusable building blocks (arbitrary read/write, code execution)",
-                            "Memory Management: Efficient handling of exploit payloads and shellcode",
-                            "Error Handling: Robust error recovery and exploit failover mechanisms",
-                            "Payload Generation: Dynamic payload creation based on target environment"
+                            "Multi-stage exploitation chains",
+                            "Cross-language implementation",
+                            "Creative exploit chaining techniques"
                         ]
-                    },
-                    {
-                        title: "Architecture",
-                        items: [
-                            "C Components: Low-level memory manipulation and shellcode execution",
-                            "Go Components: Networking, orchestration, and coordination logic",
-                            "Python Components: Exploit development, testing, and automation scripts",
-                            "Inter-Process Communication: Shared memory and pipes for component interaction",
-                            "Configuration Management: JSON/YAML-based exploit chain definitions"
-                        ]
-                    },
-                    {
-                        title: "Example Chains",
-                        items: [
-                            "Information Leak → ASLR Bypass → Code Execution",
-                            "Authentication Bypass → Privilege Escalation → Persistence",
-                            "RCE → Credential Theft → Lateral Movement",
-                            "Client-Side Exploit → Sandbox Escape → Payload Delivery"
-                        ]
-                    },
-                    {
-                        title: "Status",
-                        content: "This is a private research repository focused on understanding modern exploitation techniques and developing robust defensive strategies."
                     }
                 ]
             },
             {
                 name: "Windows-Pain-Killer",
-                description: "Automate time-consuming manual Windows tasks using batch scripts for faster system administration.",
-                fullDescription: "Windows-Pain-Killer is a collection of Windows batch scripts designed to automate repetitive and time-consuming manual tasks. The project focuses on improving system administration efficiency through intelligent automation, reducing human error, and standardizing administrative procedures.",
-                files: 34,
-                lastUpdated: "4 days ago",
+                shortDesc: "Windows automation and system administration utilities",
+                fullDesc: "Comprehensive collection of Windows batch scripts designed to automate repetitive administrative tasks, streamline workflows, and improve system management efficiency.",
                 icon: "💊",
-                tags: ["Windows", "Automation", "Batch Scripting", "Private"],
+                category: "Automation",
+                tags: ["Windows", "Batch", "Automation", "Administration"],
+                files: 35,
+                lastUpdate: "4 days ago",
+                status: "private",
                 githubUrl: null,
                 sections: [
                     {
                         title: "Overview",
-                        content: "Windows-Pain-Killer eliminates the pain of repetitive Windows administration tasks through well-crafted batch scripts. The collection covers common system administration scenarios and provides efficient, reliable automation solutions. Each script is designed to be robust, with proper error handling and logging capabilities."
+                        content: "Windows-Pain-Killer automates time-consuming manual Windows tasks using efficient batch scripts for faster system administration."
                     },
                     {
-                        title: "Automation Categories",
+                        title: "Utilities",
                         items: [
-                            "System Maintenance: Disk cleanup, temp file removal, registry optimization, defragmentation",
-                            "User Management: Bulk user creation/deletion, password resets, group management",
-                            "Network Configuration: IP configuration, DNS settings, firewall rules automation",
-                            "Software Deployment: Silent installations, MSI deployment, update management",
-                            "Log Analysis: Event log parsing, error detection, automated reporting",
-                            "Security Hardening: Security policy enforcement, UAC configuration, service hardening",
-                            "Backup Operations: Automated file/folder backups, database backups, restore procedures"
+                            "System configuration automation",
+                            "User and group management",
+                            "Service control and monitoring",
+                            "Network configuration tools",
+                            "Security hardening scripts"
                         ]
-                    },
-                    {
-                        title: "Key Features",
-                        items: [
-                            "Scheduled Task Integration: Scripts can be scheduled for automatic execution",
-                            "Error Handling: Comprehensive error checking and graceful failure handling",
-                            "Logging: Detailed logging of all operations for audit trails",
-                            "Configuration Files: Externalized configuration for easy customization",
-                            "Remote Execution: Support for remote system administration",
-                            "Active Directory Integration: AD query and management capabilities"
-                        ]
-                    },
-                    {
-                        title: "Common Scripts",
-                        items: [
-                            "Daily system cleanup and optimization",
-                            "Automated software updates and patches",
-                            "User account audit and compliance checks",
-                            "Network troubleshooting and diagnostics",
-                            "Application deployment and configuration",
-                            "Security baseline enforcement"
-                        ]
-                    },
-                    {
-                        title: "Status",
-                        content: "This is a private repository with continuous updates based on real-world system administration needs."
                     }
                 ]
             },
             {
                 name: "Shellcode Execution Taxonomy",
-                description: "Various kinds of shellcode execution mechanisms and injection techniques. C-based implementations.",
-                fullDescription: "Shellcode Execution Taxonomy is a comprehensive collection of shellcode execution methods and injection techniques implemented in C. This private repository catalogs different approaches to executing shellcode in Windows environments, from basic techniques to advanced evasion methods.",
-                files: 27,
-                lastUpdated: "3 days ago",
+                shortDesc: "Comprehensive shellcode execution and injection techniques",
+                fullDesc: "Extensive collection of shellcode execution methods and injection techniques implemented in C. Covers various execution mechanisms, memory manipulation, and evasion techniques.",
                 icon: "🚀",
-                tags: ["Shellcode", "Injection", "C Programming", "Private"],
+                category: "Offensive Security",
+                tags: ["Shellcode", "Injection", "C", "Evasion"],
+                files: 130,
+                lastUpdate: "3 days ago",
+                status: "private",
                 githubUrl: null,
                 sections: [
                     {
                         title: "Overview",
-                        content: "This project provides a systematic taxonomy of shellcode execution mechanisms, from basic techniques to advanced evasion methods. Each implementation is documented with technical details, use cases, and detection considerations. The repository serves as an educational resource for understanding how shellcode operates and how to defend against it."
+                        content: "Comprehensive taxonomy of shellcode execution mechanisms and injection techniques for security research and educational purposes."
                     },
                     {
-                        title: "Execution Methods",
+                        title: "Techniques Covered",
                         items: [
-                            "Direct Execution: VirtualAlloc + memcpy + function pointer casting",
-                            "Process Injection: Classic CreateRemoteThread injection",
-                            "Thread Hijacking: Suspending threads and hijacking execution flow",
-                            "APC Injection: QueueUserAPC for stealthy code execution",
-                            "Module Stomping: Overwriting legitimate DLL sections with shellcode",
-                            "Process Hollowing: Creating suspended processes and replacing memory",
-                            "Reflective Loading: Loading PE files without Windows loader",
-                            "Callback-based Execution: EnumWindows, EnumSystemLocales callbacks"
+                            "Process injection methods",
+                            "Memory allocation strategies",
+                            "Execution callbacks and hijacking",
+                            "Evasion and obfuscation techniques",
+                            "Detection bypass mechanisms"
                         ]
-                    },
-                    {
-                        title: "Advanced Techniques",
-                        items: [
-                            "Early Bird APC: Injecting into process initialization phase",
-                            "Process Doppelgänging: NTFS transactions for evasion",
-                            "Atom Bombing: Using atom tables for code injection",
-                            "Thread Pool Injection: Hijacking thread pool callbacks",
-                            "Fiber Execution: Using Windows fibers for shellcode",
-                            "Memory Module Loading: In-memory PE loading without disk",
-                            "Remote Function Stomping: Overwriting remote function prologues"
-                        ]
-                    },
-                    {
-                        title: "Evasion Techniques",
-                        items: [
-                            "API Hooking Bypass: Direct syscall invocation",
-                            "Memory Protection: RX → RW → RX transitions",
-                            "String Obfuscation: Encrypted strings and dynamic resolution",
-                            "Import Hiding: Manual import resolution via PEB walking",
-                            "Sleeping Techniques: Avoiding detection during idle time",
-                            "Parent Process Spoofing: Masquerading as legitimate processes"
-                        ]
-                    },
-                    {
-                        title: "Technical Details",
-                        items: [
-                            "All implementations use Windows API functions",
-                            "Detailed comments explaining each technique",
-                            "Memory layout diagrams and execution flow",
-                            "MITRE ATT&CK technique mappings",
-                            "Detection signatures and defensive measures"
-                        ]
-                    },
-                    {
-                        title: "Status",
-                        content: "This is a private research repository. All code is for educational purposes and understanding defensive security strategies."
                     }
                 ]
             },
             {
                 name: "MalForge",
-                description: "Practical implementation of Windows API functions categorized by malapi.io for security research and analysis.",
-                fullDescription: "MalForge is a practical implementation repository of Windows API functions commonly used in malware, categorized according to malapi.io taxonomy. This educational project helps security researchers understand how legitimate Windows APIs can be misused and how to detect and defend against such abuse.",
-                files: 42,
-                lastUpdated: "1 day ago",
+                shortDesc: "Windows API malware analysis and implementation",
+                fullDesc: "Practical implementation of Windows API functions frequently observed in malware, categorized by malapi.io. Educational resource for understanding malware behavior and Windows internals.",
                 icon: "🔨",
-                tags: ["Windows API", "Malware Analysis", "Security Research", "C"],
+                category: "Malware Analysis",
+                tags: ["Windows API", "Malware", "C", "Analysis"],
+                files: 150,
+                lastUpdate: "1 day ago",
+                status: "private",
                 githubUrl: null,
                 sections: [
                     {
                         title: "Overview",
-                        content: "MalForge provides documented implementations of Windows API functions frequently observed in malware. By understanding these APIs and their usage patterns, security researchers can better analyze and defend against malicious software. Each implementation includes the legitimate use case, malicious use case, and detection methods. The project is organized according to the malapi.io categorization system."
+                        content: "MalForge provides documented implementations of Windows API functions frequently observed in malware for security research and defensive analysis."
                     },
                     {
                         title: "API Categories",
                         items: [
-                            "Process Manipulation: CreateProcess, OpenProcess, TerminateProcess, Process32First/Next",
-                            "Memory Operations: VirtualAlloc, VirtualProtect, WriteProcessMemory, ReadProcessMemory",
-                            "Thread Management: CreateThread, CreateRemoteThread, SuspendThread, ResumeThread",
-                            "Registry Operations: RegCreateKeyEx, RegSetValueEx, RegDeleteKey, RegQueryValueEx",
-                            "File Operations: CreateFile, WriteFile, DeleteFile, MoveFile, CopyFile",
-                            "Network APIs: socket, connect, send, recv, WinHTTP/WinINet functions",
-                            "Cryptography: CryptEncrypt, CryptDecrypt, CryptHashData, CryptGenKey",
-                            "Anti-Analysis: IsDebuggerPresent, CheckRemoteDebuggerPresent, NtQueryInformationProcess"
+                            "Almost all malapi's categorized by specific categories",
+                            "Process and thread manipulation",
+                            "Memory management and allocation",
+                            "File system operations",
+                            "Registry and persistence",
+                            "Network and communication APIs",
+                            "Cryptographic functions"
                         ]
-                    },
-                    {
-                        title: "Additional Categories",
-                        items: [
-                            "Service Management: CreateService, StartService, ControlService",
-                            "Dynamic Loading: LoadLibrary, GetProcAddress, FreeLibrary",
-                            "Token Manipulation: OpenProcessToken, AdjustTokenPrivileges, ImpersonateLoggedOnUser",
-                            "Code Injection: VirtualAllocEx, WriteProcessMemory, CreateRemoteThread",
-                            "Persistence: Run keys, scheduled tasks, WMI event subscriptions",
-                            "System Information: GetSystemInfo, GetVersionEx, GetComputerName",
-                            "Mutex/Synchronization: CreateMutex, OpenMutex, WaitForSingleObject"
-                        ]
-                    },
-                    {
-                        title: "Implementation Structure",
-                        items: [
-                            "Each API has standalone C/C++ implementation",
-                            "Code comments explain parameters and return values",
-                            "Legitimate use case examples provided",
-                            "Malicious use case scenarios documented",
-                            "Detection methods and YARA rules included",
-                            "MITRE ATT&CK technique mappings",
-                            "API call sequence analysis for common patterns"
-                        ]
-                    },
-                    {
-                        title: "Detection and Defense",
-                        items: [
-                            "Behavioral patterns indicating malicious usage",
-                            "API call sequences common in malware",
-                            "ETW (Event Tracing for Windows) monitoring",
-                            "API hooking and monitoring techniques",
-                            "Endpoint Detection and Response (EDR) evasion methods",
-                            "Defensive programming patterns"
-                        ]
-                    },
-                    {
-                        title: "Educational Purpose Still Under Development",
-                        content: "All implementations are for educational and defensive security research. Understanding how APIs can be abused helps security professionals better protect systems and detect malicious activity. The project emphasizes responsible disclosure and ethical security research."
                     }
                 ]
             }
         ];
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('visible');
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
         }
 
-        function showDashboard() {
-            document.getElementById('dashboardView').style.display = 'block';
-            document.getElementById('detailView').classList.remove('active');
-            
-            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-            document.querySelector('.sidebar-item').classList.add('active');
-            
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('visible');
-            }
-
-            window.scrollTo(0, 0);
+        // Render Projects Grid
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = projects.map((project, index) => `
+                <div class="project-card loading" onclick="showProject(${index})" style="animation-delay: ${index * 0.1}s">
+                    <div class="project-header">
+                        <div class="project-icon">${project.icon}</div>
+                        <div class="project-title">${project.name}</div>
+                        <div class="project-subtitle">${project.category}</div>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">${project.shortDesc}</p>
+                        <div class="project-tags">
+                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-status">
+                                <div class="status-dot ${project.status}"></div>
+                                <span>${project.status === 'public' ? 'Public' : 'Private'}</span>
+                            </div>
+                            <div>${project.files} files</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
+        // Show Project Detail
         function showProject(index) {
-            const project = folders[index];
-            document.getElementById('dashboardView').style.display = 'none';
-            
-            const detailView = document.getElementById('detailView');
+            const project = projects[index];
+            const detailPage = document.getElementById('detailPage');
             
             let sectionsHTML = '';
             project.sections.forEach(section => {
                 if (section.items) {
                     sectionsHTML += `
                         <div class="detail-section">
-                            <h2>${section.title}</h2>
-                            <ul>
+                            <h3 class="detail-section-title">${section.title}</h3>
+                            <ul class="detail-list">
                                 ${section.items.map(item => `<li>${item}</li>`).join('')}
                             </ul>
                         </div>
@@ -1076,119 +2363,165 @@
                 } else {
                     sectionsHTML += `
                         <div class="detail-section">
-                            <h2>${section.title}</h2>
-                            <p>${section.content}</p>
+                            <h3 class="detail-section-title">${section.title}</h3>
+                            <div class="detail-section-content">${section.content}</div>
                         </div>
                     `;
                 }
             });
 
-            const repoSection = project.githubUrl 
+            const repoHTML = project.status === 'public' 
                 ? `
-                    <div class="detail-section">
-                        <h2>Repository</h2>
-                        <div class="file-list">
-                            <div class="file-item">
-                                <span>🔗</span>
-                                <a href="${project.githubUrl}" target="_blank">${project.githubUrl}</a>
-                            </div>
-                        </div>
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-title">Repository</div>
+                        <a href="${project.githubUrl}" class="repo-link" target="_blank">
+                            <span class="repo-icon">📂</span>
+                            <span>View on GitHub</span>
+                        </a>
                     </div>
                 `
                 : `
-                    <div class="detail-section">
-                        <h2>Repository Status</h2>
-                        <div class="status-badge">
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-title">Repository Status</div>
+                        <div class="private-badge">
                             <span>🔒</span>
                             <span>Private Repository</span>
                         </div>
                     </div>
                 `;
-            
-            detailView.innerHTML = `
-                <div class="breadcrumb">
-                    <a href="#" onclick="showDashboard(); return false;">Documentation</a>
-                    <span>›</span>
-                    <span>${project.name}</span>
-                </div>
 
-                <button class="back-btn" onclick="showDashboard()">
-                    <span>←</span>
-                    <span>Back to Documentation</span>
-                </button>
-                
-                <div class="detail-header">
-                    <div class="detail-title">
-                        <span class="detail-icon">${project.icon}</span>
-                        <span>${project.name}</span>
+            const lastUpdateHTML = project.lastUpdate ? `
+                <div class="meta-item">
+                    <span class="meta-icon">🕒</span>
+                    <span>Updated ${project.lastUpdate}</span>
+                </div>
+            ` : '';
+
+            detailPage.innerHTML = `
+                <div class="detail-container">
+                    <div class="breadcrumbs">
+                        <a href="#" onclick="showHome(); return false;" class="breadcrumb-link">Home</a>
+                        <span class="breadcrumb-separator">›</span>
+                        <a href="#projects" onclick="showHome(); return false;" class="breadcrumb-link">Projects</a>
+                        <span class="breadcrumb-separator">›</span>
+                        <span class="breadcrumb-current">${project.name}</span>
                     </div>
-                    <div class="detail-desc">
-                        ${project.fullDescription}
-                    </div>
-                    <div class="stats-row">
-                        <div class="stat-badge">
-                            <span>📄</span>
-                            <span>${project.files} files</span>
+
+                    <a href="#" onclick="showHome(); return false;" class="back-button">
+                        <span>←</span>
+                        <span>Back to Projects</span>
+                    </a>
+
+                    <div class="detail-hero">
+                        <div class="detail-hero-header">
+                            <div class="detail-icon">${project.icon}</div>
+                            <div class="detail-header-content">
+                                <h1 class="detail-title">${project.name}</h1>
+                                <p class="detail-subtitle">${project.fullDesc}</p>
+                                <div class="detail-meta-bar">
+                                    <div class="meta-item">
+                                        <span class="meta-icon">📁</span>
+                                        <span>${project.files} Files</span>
+                                    </div>
+                                    ${lastUpdateHTML}
+                                    <div class="meta-item">
+                                        <span class="meta-icon">${project.status === 'public' ? '🌐' : '🔒'}</span>
+                                        <span>${project.status === 'public' ? 'Public' : 'Private'}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="stat-badge">
-                            <span>🕐</span>
-                            <span>Updated ${project.lastUpdated}</span>
+                        <div class="detail-tags">
+                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     </div>
-                    <div class="detail-tags">
-                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+
+                    <div class="detail-content">
+                        <div class="detail-main">
+                            ${sectionsHTML}
+                        </div>
+                        <div class="detail-sidebar">
+                            ${repoHTML}
+                            <div class="sidebar-card">
+                                <div class="sidebar-card-title">Category</div>
+                                <div class="tag">${project.category}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                ${sectionsHTML}
-                ${repoSection}
             `;
+
+            document.getElementById('homePage').style.display = 'none';
+            detailPage.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            detailView.classList.add('active');
+            // Close mobile menu if open
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.remove('active');
+        }
+
+        // Show Home Page
+        function showHome() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('detailPage').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Update sidebar active state
-            document.querySelectorAll('.sidebar-item').forEach((item, i) => {
-                item.classList.remove('active');
-                if (i === index + 1) {
-                    item.classList.add('active');
+            // Close mobile menu if open
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.remove('active');
+        }
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    const offsetTop = target.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu
+                    const mobileNav = document.getElementById('mobileNav');
+                    mobileNav.classList.remove('active');
                 }
             });
+        });
+
+        // Scroll Reveal Animation
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal');
             
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('visible');
-            }
-            
-            window.scrollTo(0, 0);
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('revealed');
+                }
+            });
         }
 
-        function renderCards(foldersToRender) {
-            const grid = document.getElementById('cardsGrid');
-            
-            grid.innerHTML = foldersToRender.map((folder, index) => `
-                <div class="doc-card" onclick="showProject(${folders.indexOf(folder)})">
-                    <span class="card-icon">${folder.icon}</span>
-                    <div class="card-title">${folder.name}</div>
-                    <div class="card-desc">${folder.description}</div>
-                    <div class="card-meta">
-                        <span>📄 ${folder.files} files</span>
-                        <span>🕐 ${folder.lastUpdated}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
+        window.addEventListener('scroll', revealOnScroll);
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filtered = folders.filter(folder => 
-                folder.name.toLowerCase().includes(searchTerm) || 
-                folder.description.toLowerCase().includes(searchTerm) ||
-                folder.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-            );
-            renderCards(filtered);
+        // Parallax Effect for Background Orbs
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const orbs = document.querySelectorAll('.gradient-orb');
+            
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 0.1;
+                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            });
         });
 
         // Initialize
-        renderCards(folders);
+        renderProjects();
+        revealOnScroll();
     </script>
 </body>
 </html>
